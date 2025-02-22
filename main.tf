@@ -43,10 +43,31 @@ module "public_subnets" {
   map_public_ip_on_launch   = var.map_public_ip_on_launch
 }
 
+module "public_route_table" {
+  source = "./modules/public_route_table"
+  vpc_id= module.vpc.vpc_id
+  internet_gateway_id=module.igw.igw_id
+  public_subnet_ids = module.public_subnets.public_subnet_ids
+}
+
 module "private_subnets" {
   source                          = "./modules/private_subnet"
   vpc_id                          = module.vpc.vpc_id
   private_subnets_cidr            = var.private_subnets_cidr
   private_availability_zone       = var.private_availability_zone
   map_public_ip_on_launch_private = var.map_public_ip_on_launch_private
+}
+
+module "private_route_table" {
+  source = "./modules/private_route_table"
+  vpc_id= module.vpc.vpc_id
+  nat_gateway_id=module.nat_gateway.nat_gateway_id
+  private_subnet_ids = module.private_subnets.private_subnet_ids
+}
+
+module "nat_gateway" {
+  source             = "./modules/nat_gateway"
+  igw                = module.igw.igw_id
+  connectivity_type  =var.connectivity_type
+  public_subnet_ids  =module.public_subnets.public_subnet_ids
 }

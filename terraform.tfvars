@@ -19,3 +19,10 @@
  private_subnets_cidr            = ["92.10.0.128/26", "92.10.0.192/26"]
  private_availability_zone       = ["us-east-1a", "us-east-1b"]
  map_public_ip_on_launch_private = "false"
+
+ # Variable to be given for Public Route Tanle defination
+#--------------------------------------------------------
+
+# Variable to be given for NAT GATEWAY defination
+#----------------------------------------
+connectivity_type= "public"
