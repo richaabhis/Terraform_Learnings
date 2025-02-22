@@ -11,6 +11,6 @@ resource "aws_subnet" "public-subnets" {
   }
 }
 
-output "public_subnets_id" {
+output "public_subnet_ids" {
   value       = aws_subnet.public-subnets[*].id
 }

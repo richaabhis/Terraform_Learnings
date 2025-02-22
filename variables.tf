@@ -37,3 +37,7 @@ variable "private_availability_zone" {
 variable "map_public_ip_on_launch_private" {
   description = "Whether public IPs should be assigned to instances by default"
 }
+
+variable "connectivity_type" {
+  description = "Use \"public / private\" for an Internet-accessible NAT gateway"
+}
