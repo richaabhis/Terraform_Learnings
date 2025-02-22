@@ -22,9 +22,16 @@ terraform {
   }
 }
 
-module "abhishek-vpc" {
-    source = "./modules/abhishek_vpc"
-    cidr_block = var.cidr_block
+module "vpc" {
+    source           = "./modules/abhishek_vpc"
+    cidr_block       = var.cidr_block
     instance_tenancy = var.instance_tenancy
-    vpc_name = var.vpc_name
+    vpc_name         = var.vpc_name
 }
+
+module "igw" {
+  source   = "./modules/igw"
+  vpc_id   =module.vpc.vpc_id
+  igw_name =var.igw_name
+}
+

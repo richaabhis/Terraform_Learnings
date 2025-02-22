@@ -9,6 +9,6 @@ resource "aws_vpc" "abhishek-vpc" {
   }
 }
 
-output "abhishek-vpc" {
+output "vpc_id" {
   value       = aws_vpc.abhishek-vpc.id
 }
