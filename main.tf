@@ -35,3 +35,18 @@ module "igw" {
   igw_name =var.igw_name
 }
 
+module "public_subnets" {
+  source                    = "./modules/public_subnet"
+  vpc_id                    = module.vpc.vpc_id
+  public_subnets_cidr       = var.public_subnets_cidr
+  public_availability_zones = var.public_availability_zones
+  map_public_ip_on_launch   = var.map_public_ip_on_launch
+}
+
+module "private_subnets" {
+  source                          = "./modules/private_subnet"
+  vpc_id                          = module.vpc.vpc_id
+  private_subnets_cidr            = var.private_subnets_cidr
+  private_availability_zone       = var.private_availability_zone
+  map_public_ip_on_launch_private = var.map_public_ip_on_launch_private
+}
