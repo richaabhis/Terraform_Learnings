@@ -10,14 +10,14 @@
 
 # Variable to be given for public_subnets defination
 #---------------------------------------- 
- public_subnets_cidr       = ["92.10.0.0/26", "92.10.0.64/26"]
+ public_subnets_cidr       = ["92.10.0.0/27", "92.10.0.32/27"]
  public_availability_zones = ["us-east-1a", "us-east-1b"]
  map_public_ip_on_launch   = "true"
 
 # Variable to be given for private_subnets defination
 #---------------------------------------- 
- private_subnets_cidr            = ["92.10.0.128/26", "92.10.0.192/26"]
- private_availability_zone       = ["us-east-1a", "us-east-1b"]
+ private_subnets_cidr            = ["92.10.0.64/27", "92.10.0.96/27" , "92.10.0.128/27"]
+ private_availability_zone       = ["us-east-1a", "us-east-1b" , "us-east-1c"]
  map_public_ip_on_launch_private = "false"
 
  # Variable to be given for Public Route Tanle defination

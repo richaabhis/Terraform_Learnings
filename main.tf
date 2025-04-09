@@ -71,3 +71,16 @@ module "nat_gateway" {
   connectivity_type  =var.connectivity_type
   public_subnet_ids  =module.public_subnets.public_subnet_ids
 }
+
+module "sg" {
+  source             = "./modules/sg"
+  vpc_id             = module.vpc.vpc_id
+}
+
+module "Application_LoadBalancer" {
+  source             = "./modules/alb"
+  public_subnet_ids  = module.public_subnets.public_subnet_ids
+  private_subnet_ids = module.private_subnets.private_subnet_ids
+  public_lb_sg       = module.sg.public_lb_sg_id
+  private_lb_sg      = module.sg.private_lb_sg_id
+}
