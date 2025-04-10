@@ -1,49 +1,4 @@
-variable "cidr_block" {
-  description = "Define CIDR Range of the AWS Cloud"
-}
-
-variable "instance_tenancy" {
-  description = "Need To define Instance Tenancy of VPC"
-}
-
-variable "vpc_name" {
-  description = "Define VPC Name of the AWS Cloud"
-}
-
-variable "igw_name" {
-  description = "Name provied to Internet Gateway Resource"
-}
-
-variable "public_subnets_cidr" {
-  description = "List of CIDR blocks for public subnets"
-}
-
-variable "public_availability_zones" {
-  description = "List of Availability Zones for public subnets"
-}
-
-variable "map_public_ip_on_launch" {
-  description = "Whether public IPs should be assigned to instances by default"
-}
-
-variable "private_subnets_cidr" {
-  description = "List of CIDR blocks for private subnets"
-}
-
-variable "private_availability_zone" {
-  description = "List of Availability Zones for private subnets"
-}
-
-variable "map_public_ip_on_launch_private" {
-  description = "Whether public IPs should be assigned to instances by default"
-}
-
-variable "connectivity_type" {
-  description = "Use \"public / private\" for an Internet-accessible NAT gateway"
-}
-
-# TARGET GROUPS VARIABLES DEFINITION
-# Public Target Group (for Public ALB) with IP target type
+# Public Target Group variables
 variable "public_target_type" {
   description = "The target type for the public target group (e.g., ip)"
   type        = string
@@ -72,6 +27,11 @@ variable "public_ip_address_type" {
   description = "The IP address type for the public target group (e.g., ipv4)"
   type        = string
   default     = "ipv4"
+}
+
+variable "vpc_id" {
+  description = "The VPC ID for the public target group"
+  type        = string
 }
 
 variable "public_protocol_version" {

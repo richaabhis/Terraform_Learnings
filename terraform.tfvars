@@ -26,3 +26,33 @@
 # Variable to be given for NAT GATEWAY defination
 #----------------------------------------
 connectivity_type= "public"
+
+
+
+
+# Variable to be given for ALB Target Group defination
+#------------------------------------------------
+# Public Target Group variables
+public_target_type = "ip"  # Targets are IP addresses
+public_target_group_name = "public-target-group"
+public_target_group_protocol = "HTTP"
+public_target_group_port = 80
+public_ip_address_type = "ipv4"
+public_protocol_version = "HTTP1"
+
+# Private Target Group variables
+private_target_type = "ip"  # Targets are IP addresses
+private_target_group_name = "private-target-group"
+private_target_group_protocol = "HTTP"
+private_target_group_port = 80
+private_ip_address_type = "ipv4"
+private_protocol_version = "HTTP1"
+
+# Health check variables
+health_check_interval = 30
+health_check_path = "/health"  # Customize this path to match your health check endpoint
+health_check_port = 80
+health_check_protocol = "HTTP"
+health_check_timeout = 5
+health_check_healthy_threshold = 3
+health_check_unhealthy_threshold = 3
