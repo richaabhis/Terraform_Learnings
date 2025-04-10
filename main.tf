@@ -77,10 +77,44 @@ module "sg" {
   vpc_id             = module.vpc.vpc_id
 }
 
-module "Application_LoadBalancer" {
+module "alb" {
   source             = "./modules/alb"
   public_subnet_ids  = module.public_subnets.public_subnet_ids
   private_subnet_ids = module.private_subnets.private_subnet_ids
   public_lb_sg       = module.sg.public_lb_sg_id
   private_lb_sg      = module.sg.private_lb_sg_id
+  
+  public_target_group_arn  = module.alb_target_group.public_target_group_arn
+  private_target_group_arn = module.alb_target_group.private_target_group_arn
+}
+
+
+module "alb_target_group" {
+  source = "./modules/alb_target_group"
+  vpc_id = module.vpc.vpc_id
+
+  # Public Target Group
+  public_target_type           = var.public_target_type
+  public_target_group_name     = var.public_target_group_name
+  public_target_group_protocol = var.public_target_group_protocol
+  public_target_group_port     = var.public_target_group_port
+  public_ip_address_type       = var.public_ip_address_type
+  public_protocol_version      = var.public_protocol_version
+
+  # Private Target Group
+  private_target_type           = var.private_target_type
+  private_target_group_name     = var.private_target_group_name
+  private_target_group_protocol = var.private_target_group_protocol
+  private_target_group_port     = var.private_target_group_port
+  private_ip_address_type       = var.private_ip_address_type
+  private_protocol_version      = var.private_protocol_version
+
+  # Health Check (shared)
+  health_check_interval           = var.health_check_interval
+  health_check_path               = var.health_check_path
+  health_check_port               = var.health_check_port
+  health_check_protocol           = var.health_check_protocol
+  health_check_timeout            = var.health_check_timeout
+  health_check_healthy_threshold  = var.health_check_healthy_threshold
+  health_check_unhealthy_threshold = var.health_check_unhealthy_threshold
 }

@@ -83,3 +83,92 @@ output "private_lb_sg_id" {
   value       = aws_security_group.private_lb_sg.id
   description = "The ID of the security group for the private load balancer"
 }
+
+
+# Security Group for EC2 instances (server side) that allows traffic from the public ALB
+resource "aws_security_group" "public_server_sg" {
+  vpc_id      = var.vpc_id
+  name        = "server-sg"
+  description = "Security group for EC2 instances that allows traffic from public ALB"
+
+  # Inbound rule: Allow traffic from the public load balancer security group (HTTP & HTTPS)
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.public_lb_sg.id]
+    description = "Allow HTTP traffic from public ALB"
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    security_groups = [aws_security_group.public_lb_sg.id]
+    description = "Allow HTTPS traffic from public ALB"
+  }
+
+  # Outbound rule: Allow all outbound traffic (can be customized if needed)
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
+  }
+
+  tags = {
+    Name = "Public-Server-SG"
+  }
+}
+
+# Output for the EC2 Security Group ID
+output "server_sg_id" {
+  value       = aws_security_group.public_server_sg.id
+  description = "The ID of the security group for the EC2 instances"
+}
+
+
+# Security Group for EC2 instances in private subnet that allows traffic from the private ALB
+resource "aws_security_group" "private_server_sg" {
+  vpc_id      = var.vpc_id
+  name        = "private-server-sg"
+  description = "Security group for EC2 instances in private subnet that allows traffic from private ALB"
+
+  # Inbound rule: Allow HTTP traffic from the private load balancer security group
+  ingress {
+    from_port      = 80
+    to_port        = 80
+    protocol       = "tcp"
+    security_groups = [aws_security_group.private_lb_sg.id]  # Reference the private LB SG ID
+    description    = "Allow HTTP traffic from the private ALB"
+  }
+
+  # Inbound rule: Allow HTTPS traffic from the private load balancer security group
+  ingress {
+    from_port      = 443
+    to_port        = 443
+    protocol       = "tcp"
+    security_groups = [aws_security_group.private_lb_sg.id]  # Reference the private LB SG ID
+    description    = "Allow HTTPS traffic from the private ALB"
+  }
+
+  # Outbound rule: Allow all outbound traffic (can be customized if needed)
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"  # Allow all protocols to outbound resources
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
+  }
+
+  tags = {
+    Name = "Private-Server-SG"
+  }
+}
+
+# Output for the EC2 Security Group ID in private subnet
+output "private_server_sg_id" {
+  value       = aws_security_group.private_server_sg.id
+  description = "The ID of the security group for the EC2 instances in private subnet"
+}

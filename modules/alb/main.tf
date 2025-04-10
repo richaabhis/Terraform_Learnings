@@ -39,5 +39,29 @@ resource "aws_lb" "private_alb" {
 # Output for Private ALB DNS Name
 output "private_alb_dns_name" {
   value       = aws_lb.private_alb.dns_name
-  description = "The DNS name of the private ALB"
+}
+
+
+# Public ALB Listener - HTTP (Port 80)
+resource "aws_lb_listener" "public_http_listener" {
+  load_balancer_arn = aws_lb.public_alb.arn 
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = var.public_target_group_arn
+  }
+}
+
+# Private ALB Listener - HTTP (Port 80)
+resource "aws_lb_listener" "private_http_listener" {
+  load_balancer_arn = aws_lb.private_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = var.private_target_group_arn
+  }
 }
